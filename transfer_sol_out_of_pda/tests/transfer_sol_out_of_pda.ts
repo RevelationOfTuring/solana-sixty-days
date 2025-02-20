@@ -13,18 +13,18 @@ describe("transfer_sol_out_of_pda", () => {
 
     const pda = web3.PublicKey.findProgramAddressSync([], program.programId)[0];
     console.log(`pda balance: ${await connection.getBalance(pda)}`);
-    
+
     // init pda
     await program.methods.initialize().rpc();
     console.log(`pda balance: ${await connection.getBalance(pda)}`);
 
-    // transfer 5 sol into the pda
+    // transfer 2 sol into the pda
     await program.methods.donate(new BN(2 * web3.LAMPORTS_PER_SOL)).rpc();
     console.log(`pda balance: ${await connection.getBalance(pda)}`);
 
-    // transfer 3 sol out of pda
+    // transfer 2 sol out of pda
     const recipient = new web3.Keypair();
-    await program.methods.withdraw(new BN(1 * web3.LAMPORTS_PER_SOL)).accounts({
+    await program.methods.withdraw(new BN(2 * web3.LAMPORTS_PER_SOL)).accounts({
       recipent: recipient.publicKey,
     }).rpc();
     console.log(`pda balance: ${await connection.getBalance(pda)}`);
